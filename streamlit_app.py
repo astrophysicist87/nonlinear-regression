@@ -18,10 +18,10 @@ st.write("Welcome, ", st.session_state.name, "!")
 
 # Load the data from a CSV. We're caching this so it doesn't reload every time the app
 # reruns (e.g. if the user interacts with the widgets).
-#@st.cache_data
-#def load_data():
-#    df = pd.read_csv("data/movies_genres_summary.csv")
-#    return df
+@st.cache_data
+def load_data(uploaded_file):
+    df = pd.read_csv(uploaded_file)
+    return df
 
 
 #df = load_data()
@@ -68,10 +68,8 @@ st.write("Welcome, ", st.session_state.name, "!")
 #st.altair_chart(chart, use_container_width=True)
 
 
-dataframe = None
 uploaded_file = st.file_uploader("Choose a file")
 if uploaded_file is not None:
     # Can be used wherever a "file-like" object is accepted:
-    @st.cache_data
-    dataframe = pd.read_csv(uploaded_file)
+    dataframe = load_data(uploaded_file)
     st.write(dataframe)
