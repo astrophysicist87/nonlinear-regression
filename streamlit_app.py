@@ -3,8 +3,8 @@ import pandas as pd
 import streamlit as st
 
 # Show the page title and description.
-st.set_page_config(page_title="Movies dataset", page_icon="🎬")
-st.title("🎬 Movies dataset")
+st.set_page_config(page_title="Movies dataset (Plumberg)", page_icon="🎬")
+st.title("🎬 Movies dataset (Plumberg 2)")
 st.write(
     """
     This app visualizes data from [The Movie Database (TMDB)](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata).
@@ -13,6 +13,7 @@ st.write(
     """
 )
 
+st.text_input("Your name", key="name")
 
 # Load the data from a CSV. We're caching this so it doesn't reload every time the app
 # reruns (e.g. if the user interacts with the widgets).
@@ -64,3 +65,5 @@ chart = (
     .properties(height=320)
 )
 st.altair_chart(chart, use_container_width=True)
+
+#st.write('Thanks for visiting, ', st.session_state.name)
