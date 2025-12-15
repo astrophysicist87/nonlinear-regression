@@ -1,7 +1,7 @@
 import altair as alt
 import pandas as pd
 import streamlit as st
-from openpyxl import Workbook
+#from openpyxl import Workbook
 
 # Show the page title and description.
 st.set_page_config(page_title="Movies dataset (Plumberg)", page_icon="🎬")
@@ -22,8 +22,8 @@ st.write("Welcome, ", st.session_state.name, "!")
 # reruns (e.g. if the user interacts with the widgets).
 @st.cache_data
 def load_data(uploaded_file):
-    #df = pd.read_csv(uploaded_file)
-    df = pd.read_excel(uploaded_file)
+    df = pd.read_csv(uploaded_file)
+    #df = pd.read_excel(uploaded_file)
     return df
 
 
