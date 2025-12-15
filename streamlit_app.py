@@ -14,6 +14,7 @@ st.write(
 )
 
 st.text_input("Your name", key="name")
+st.write("Welcome, ", st.session_state.name)
 
 # Load the data from a CSV. We're caching this so it doesn't reload every time the app
 # reruns (e.g. if the user interacts with the widgets).
