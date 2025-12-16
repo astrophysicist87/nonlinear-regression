@@ -57,7 +57,7 @@ if selection == 0:
         # Can be used wherever a "file-like" object is accepted:
         dataframe = load_data(uploaded_file)
         st.write(dataframe)
-elif selection == 1:
+if selection == 1:
     df = pd.DataFrame(
         [
             {"x": 0, "y": 0}
