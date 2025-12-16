@@ -75,6 +75,7 @@ elif selection == 1:
             ),
         },)
 
+st.write("selection = ", selection)
 
 st.write("dataframe(0) = ", dataframe)
 
