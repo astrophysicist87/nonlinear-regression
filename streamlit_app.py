@@ -57,7 +57,7 @@ if selection == 0:
         # Can be used wherever a "file-like" object is accepted:
         dataframe = load_data(uploaded_file)
         st.write(dataframe)
-else:
+else if selection == 1:
     df = pd.DataFrame(
         [
             {"x": 0, "y": 0}
@@ -75,10 +75,12 @@ else:
             ),
         },)
 
+#====================================================================
+# if dataframe is defined, do fitting and plotting
 if dataframe is not None:
     # 1. Define the nonlinear function
-    def sigmoid_function(x, a, b, Offset):
-        return 1.0 / (1.0 + np.exp(-a * (x - b))) + Offset
+    def fit_function(x, a, b, c, Offset):
+        return c * np.tanh(a * (x - b)) + Offset
         
     # (Assuming xData and yData are defined as numpy arrays)
     xData = dataframe['x'].to_numpy()
@@ -86,16 +88,20 @@ if dataframe is not None:
     
     # 4. Use curve_fit to find optimal parameters
     # Provide initial guesses for parameters if possible (optional but recommended for complex models)
-    initial_guesses = [0.1, 10.0, 0.0] 
-    fitted_params, pcov = curve_fit(sigmoid_function, xData, yData, initial_guesses)
+    initial_guesses = [1.0, 1.0, 1.0, 1.0] 
+    fitted_params, pcov = curve_fit(fit_function, xData, yData, initial_guesses)
     
     # 5. Get predictions and evaluate
-    model_predictions = sigmoid_function(xData, *fitted_params)
+    model_predictions = fit_function(xData, *fitted_params)
     # Calculate R-squared or RMSE here (see search results for examples)
     
     st.write("fitted_params = ", fitted_params)
     
+    results_dict = {'x': xData, 'y': model_predictions}
+    df_results = pd.DataFrame(results_dict)
+    
     fig = px.line(dataframe, x='x', y='y')
-
+    fig = px.line(df_results, x='x', y='y')
+    
     st.plotly_chart(fig)
 
