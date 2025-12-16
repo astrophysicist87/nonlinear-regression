@@ -89,6 +89,8 @@ edited_df = st.data_editor(df2, num_rows="dynamic")
 #favorite_command = edited_df.loc[edited_df["rating"].idxmax()]["command"]
 #st.markdown(f"Your favorite command is **{favorite_command}** 🎈")
 
-edited_df.plot()
+#edited_df.plot()
 
-plt.show()
+#plt.show()
+
+st.write("test = ",edited_df.cumsum())
