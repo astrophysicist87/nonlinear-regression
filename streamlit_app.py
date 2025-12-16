@@ -109,8 +109,8 @@ if selection == 0:
 #========================================
 elif selection == 1:
     
-    # 1. Initialize DataFrame in session state if it doesn't exist
-    if 'manual_df' not in st.session_state:
+    # 1. Initialize DataFrame in session state if it doesn't exist or is empty/corrupted
+    if 'manual_df' not in st.session_state or st.session_state['manual_df'].empty:
         st.session_state['manual_df'] = pd.DataFrame(
             [
                 {"x": 0.0, "y": 0.0}
@@ -120,6 +120,7 @@ elif selection == 1:
     st.write("### Data Input")
     
     # 2. Use st.data_editor with key and callback for persistence
+    # The dataframe variable holds the currently visible data, which is passed to the analysis.
     dataframe = st.data_editor(
         st.session_state['manual_df'],
         num_rows="dynamic",
@@ -139,11 +140,16 @@ elif selection == 1:
         }
     )
     
+    # --- Check for errors before running curve_fit ---
+    
     st.write("### Regression Results")
     
-    # Ensure there are at least 4 data points (for 4 parameters) before attempting curve fitting, 
-    # but at least 2 points for a basic plot/initial guess.
-    if len(dataframe) >= 4:
+    # Check if the DataFrame has any rows after editing
+    if dataframe.empty:
+        st.info("The data editor is empty. Please enter data points.")
+    
+    # Ensure there are at least 4 data points (for 4 parameters) before attempting curve fitting
+    elif len(dataframe) >= 4:
         
         # (Assuming xData and yData are defined as numpy arrays)
         xData = dataframe['x'].to_numpy()
@@ -151,7 +157,7 @@ elif selection == 1:
         
         # 4. Use curve_fit to find optimal parameters
         try:
-            # Initial guesses for a, b, c, Offset
+            # Initial guesses: use statistics from the input data
             initial_guesses = [1.0, xData.mean(), (yData.max() - yData.min()) / 2, yData.mean()] 
             fitted_params, pcov = curve_fit(fit_function, xData, yData, p0=initial_guesses)
             
@@ -173,10 +179,13 @@ elif selection == 1:
             st.plotly_chart(fig)
             
         except RuntimeError:
-            st.warning("Could not find optimal parameters for the fit function. Check your data or initial guesses.")
+            st.warning("Could not find optimal parameters for the fit function. This can happen if the data does not match the tanh model well or if there isn't enough variance in the data.")
+        except ValueError as e:
+            st.error(f"Error during fitting (ValueError): {e}. This might be due to identical X or Y values.")
+
 
     elif len(dataframe) > 1:
-        st.info(f"You have {len(dataframe)} data points. Input at least 4 points for the regression to run reliably (4 parameters: a, b, c, Offset).")
+        st.info(f"You currently have {len(dataframe)} data points. Input at least 4 points for the regression to run reliably (4 parameters: a, b, c, Offset).")
         # Plot just the raw data for visual feedback
         fig = px.scatter(dataframe, x='x', y='y', title="Data Points (Regression requires more data)")
         st.plotly_chart(fig)
