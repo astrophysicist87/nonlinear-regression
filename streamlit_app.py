@@ -19,6 +19,7 @@ st.write(
 #st.write("Welcome, ", st.session_state.name, "!")
 
 
+# Choose how to enter data
 option_map = {
     0: "Upload data from file",
     1: "Enter data manually",
@@ -43,32 +44,34 @@ def load_data(uploaded_file):
     return df
 
 
+dataframe = None
 
-uploaded_file = st.file_uploader("Choose a file")
-if uploaded_file is not None:
-    # Can be used wherever a "file-like" object is accepted:
-    dataframe = load_data(uploaded_file)
-    st.write(dataframe)
+if selection == 0:
+    uploaded_file = st.file_uploader("Choose a file")
+    if uploaded_file is not None:
+        # Can be used wherever a "file-like" object is accepted:
+        dataframe = load_data(uploaded_file)
+        st.write(dataframe)
+else:
+    df = pd.DataFrame(
+        [
+            {"x": 0, "y": 0}
+        ]
+    )
+    dataframe = st.data_editor(df, num_rows="dynamic",\
+            column_config={
+            "x": st.column_config.NumberColumn(
+                step=1e-16,      # Set a float step to allow decimal entry
+                format="%.16f", # Use a float format string
+            ),
+            "y": st.column_config.NumberColumn(
+                step=1e-16,      # Set a float step to allow decimal entry
+                format="%.16f", # Use a float format string
+            ),
+        },)
 
-df2 = pd.DataFrame(
-    [
-        {"x": 0, "y": 0}
-    ]
-)
-edited_df = st.data_editor(df2, num_rows="dynamic",\
-        column_config={
-        "x": st.column_config.NumberColumn(
-            step=1e-16,      # Set a float step to allow decimal entry
-            format="%.16f", # Use a float format string
-        ),
-        "y": st.column_config.NumberColumn(
-            step=1e-16,      # Set a float step to allow decimal entry
-            format="%.16f", # Use a float format string
-        ),
-    },)
 
-
-fig = px.line(edited_df, x='x', y='y')
+fig = px.line(dataframe, x='x', y='y')
 
 st.plotly_chart(fig)
 
