@@ -101,7 +101,7 @@ if dataframe is not None:
     df_results = pd.DataFrame(results_dict)
     
     fig = px.line(dataframe, x='x', y='y')
-    fig = px.line(df_results, x='x', y='y')
+    #fig = px.line(df_results, x='x', y='y')
     
     st.plotly_chart(fig)
 
