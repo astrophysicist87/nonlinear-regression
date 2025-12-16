@@ -19,7 +19,7 @@ st.set_page_config(page_title="Non-Linear Regression App", page_icon="📈")
 st.title("📈 Non-Linear Regression & Data Visualization")
 st.write(
     """
-    This app performs non-linear regression using the function $f(x) = c \cdot \tanh(a \cdot (x - b)) + \text{Offset}$
+    This app performs non-linear regression using the function $f(x) = c \\cdot \\tanh(a \\cdot (x - b)) + \\text{Offset}$
     and visualizes the resulting best-fit curve in comparison to the collected data points.
     """
 )
