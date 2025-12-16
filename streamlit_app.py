@@ -79,6 +79,7 @@ if uploaded_file is not None:
 
 df2 = pd.DataFrame(
     [
+        {"x": None, "y": None}
     ]
 )
 edited_df = st.data_editor(df2, num_rows="dynamic")
