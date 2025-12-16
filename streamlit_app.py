@@ -70,7 +70,7 @@ else:
             ),
         },)
 
-if dataframe:
+if dataframe is not None:
     fig = px.line(dataframe, x='x', y='y')
 
     st.plotly_chart(fig)
