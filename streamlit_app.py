@@ -3,6 +3,7 @@ import pandas as pd
 import streamlit as st
 #from openpyxl import Workbook
 import matplotlib.pyplot as plt
+import plotly.express as px
 
 
 # Show the page title and description.
@@ -89,8 +90,9 @@ edited_df = st.data_editor(df2, num_rows="dynamic")
 #favorite_command = edited_df.loc[edited_df["rating"].idxmax()]["command"]
 #st.markdown(f"Your favorite command is **{favorite_command}** 🎈")
 
-#edited_df.plot()
+fig = px.line(edited_df, x='x', y='y')
 
-#plt.show()
+st.plotly_chart(fig)
 
-st.write("test = ",edited_df.cumsum())
+
+#st.write("test = ",edited_df.cumsum())
