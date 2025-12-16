@@ -88,11 +88,11 @@ df2 = pd.DataFrame(
 edited_df = st.data_editor(df2, num_rows="dynamic",\
         column_config={
         "x": st.column_config.NumberColumn(
-            step=1e-1,      # Set a float step to allow decimal entry
+            step=1e-100,      # Set a float step to allow decimal entry
             #format="%.8f", # Use a float format string
         ),
         "y": st.column_config.NumberColumn(
-            step=1e-1,      # Set a float step to allow decimal entry
+            step=1e-100,      # Set a float step to allow decimal entry
             #format="%.8f", # Use a float format string
         ),
     },)
