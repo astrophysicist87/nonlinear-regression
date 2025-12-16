@@ -76,3 +76,13 @@ if uploaded_file is not None:
     # Can be used wherever a "file-like" object is accepted:
     dataframe = load_data(uploaded_file)
     st.write(dataframe)
+
+df2 = pd.DataFrame(
+    [
+    ]
+)
+edited_df = st.data_editor(df2, num_rows="dynamic")
+
+#favorite_command = edited_df.loc[edited_df["rating"].idxmax()]["command"]
+#st.markdown(f"Your favorite command is **{favorite_command}** 🎈")
+
