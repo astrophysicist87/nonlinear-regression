@@ -109,8 +109,12 @@ if selection == 0:
 #========================================
 elif selection == 1:
     
-    # 1. Initialize DataFrame in session state if it doesn't exist or is empty/corrupted
-    if 'manual_df' not in st.session_state or st.session_state['manual_df'].empty:
+    # 1. Robust Initialization Check: Check if the session state key exists OR if it's not a DataFrame 
+    # OR if it's an empty DataFrame. Re-initialize if any condition is true.
+    if ('manual_df' not in st.session_state or 
+        not isinstance(st.session_state.manual_df, pd.DataFrame) or 
+        st.session_state.manual_df.empty):
+        
         st.session_state['manual_df'] = pd.DataFrame(
             [
                 {"x": 0.0, "y": 0.0}
@@ -139,8 +143,6 @@ elif selection == 1:
             ),
         }
     )
-    
-    # --- Check for errors before running curve_fit ---
     
     st.write("### Regression Results")
     
