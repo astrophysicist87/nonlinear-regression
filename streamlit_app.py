@@ -4,6 +4,9 @@ import streamlit as st
 #from openpyxl import Workbook
 import matplotlib.pyplot as plt
 import plotly.express as px
+import numpy as np
+from scipy.optimize import curve_fit
+
 
 
 # Show the page title and description.
@@ -18,6 +21,8 @@ st.write(
 #st.text_input("Your name", key="name")
 #st.write("Welcome, ", st.session_state.name, "!")
 
+
+st.write("Please choose how you want to enter your data:")
 
 # Choose how to enter data
 option_map = {
@@ -71,6 +76,25 @@ else:
         },)
 
 if dataframe is not None:
+    # 1. Define the nonlinear function
+    def sigmoid_function(x, a, b, Offset):
+        return 1.0 / (1.0 + np.exp(-a * (x - b))) + Offset
+        
+    # (Assuming xData and yData are defined as numpy arrays)
+    xData = dataframe['x'].to_numpy()
+    yData = dataframe['y'].to_numpy()
+    
+    # 4. Use curve_fit to find optimal parameters
+    # Provide initial guesses for parameters if possible (optional but recommended for complex models)
+    initial_guesses = [0.1, 10.0, 0.0] 
+    fitted_params, pcov = curve_fit(sigmoid_function, xData, yData, initial_guesses)
+    
+    # 5. Get predictions and evaluate
+    model_predictions = sigmoid_function(xData, *fitted_params)
+    # Calculate R-squared or RMSE here (see search results for examples)
+    
+    st.write("fitted_params = ", fitted_params)
+    
     fig = px.line(dataframe, x='x', y='y')
 
     st.plotly_chart(fig)
