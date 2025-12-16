@@ -85,12 +85,13 @@ if selection == 0:
         st.plotly_chart(fig)
 #========================================
 elif selection == 1:
-    df = pd.DataFrame(
+    if 'manual_df' not in st.session_state:
+        st.session_state['manual_df'] = pd.DataFrame(
         [
             {"x": 0, "y": 0}
         ]
     )
-    dataframe = st.data_editor(df, num_rows="dynamic",\
+    dataframe = st.data_editor(st.session_state['manual_df'], num_rows="dynamic",\
             column_config={
             "x": st.column_config.NumberColumn(
                 step=1e-16,      # Set a float step to allow decimal entry
@@ -101,6 +102,8 @@ elif selection == 1:
                 format="%.16f", # Use a float format string
             ),
         },)
+    
+    st.session_state['manual_df'] = dataframe
     
     st.write("selection = ", selection)
 
