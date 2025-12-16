@@ -78,6 +78,8 @@ elif selection == 1:
 #====================================================================
 # if dataframe is defined, do fitting and plotting
 if dataframe is not None:
+    st.write("dataframe(1) = ", dataframe)
+    
     # 1. Define the nonlinear function
     def fit_function(x, a, b, c, Offset):
         return c * np.tanh(a * (x - b)) + Offset
@@ -97,7 +99,7 @@ if dataframe is not None:
     
     st.write("fitted_params = ", fitted_params)
     
-    st.write("dataframe = ", dataframe)
+    st.write("dataframe(2) = ", dataframe)
     
     results_dict = {'x': xData, 'y': model_predictions}
     df_results = pd.DataFrame(results_dict)
