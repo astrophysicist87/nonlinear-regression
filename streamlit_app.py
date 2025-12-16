@@ -101,6 +101,10 @@ elif selection == 1:
                 format="%.16f", # Use a float format string
             ),
         },)
+    
+    st.write("selection = ", selection)
+
+    st.write("dataframe(0) = ", dataframe)
 
     # (Assuming xData and yData are defined as numpy arrays)
     xData = dataframe['x'].to_numpy()
@@ -116,7 +120,7 @@ elif selection == 1:
     # Calculate R-squared or RMSE here (see search results for examples)
     
     st.write("fitted_params = ", fitted_params)
-    
+    st.write("dataframe(1) = ", dataframe)
     
     results_dict = {'x': xData, 'y': model_predictions}
     df_results = pd.DataFrame(results_dict)
