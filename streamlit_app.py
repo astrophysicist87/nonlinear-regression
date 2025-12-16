@@ -97,6 +97,8 @@ if dataframe is not None:
     
     st.write("fitted_params = ", fitted_params)
     
+    st.write("dataframe = ", dataframe)
+    
     results_dict = {'x': xData, 'y': model_predictions}
     df_results = pd.DataFrame(results_dict)
     
