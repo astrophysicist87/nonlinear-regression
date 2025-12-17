@@ -134,8 +134,8 @@ if selection == 0:
                 st.write(rf'''Goodness-of-fit $r^2$ = {r2}''')
             
                 # Create the scatter plot for data and line plot for the fit
-                fig = px.scatter(df_data, x='t', y='f(t)', title="Data Points and Fitted Curve (File Upload)")
-                fig.add_scatter(x=df_fit['t'], y=df_fit['f(t)'], mode='lines', name='Fit Curve', line=dict(color='red'))
+                fig = px.scatter(df_data, x='t', y='f(t)', name='Data', title="Data Points and Fitted Curve (File Upload)")
+                fig.add_scatter(x=df_fit['t'], y=df_fit['f(t)'], mode='lines', name='Fit', line=dict(color='red'))
                 
                 st.plotly_chart(fig)
             else:
@@ -220,8 +220,8 @@ elif selection == 1:
             st.write(rf'''Goodness-of-fit $r^2$ = {r2}''')
             
             # Create the scatter plot for data and line plot for the fit
-            fig = px.scatter(df_data, x='t', y='f(t)', title="Data Points and Fitted Curve (Manual Input)")
-            fig.add_scatter(x=df_fit['t'], y=df_fit['f(t)'], mode='lines', name='Fit Curve', line=dict(color='red'))
+            fig = px.scatter(df_data, x='t', y='f(t)', name='Data', title="Data Points and Fitted Curve (Manual Input)")
+            fig.add_scatter(x=df_fit['t'], y=df_fit['f(t)'], mode='lines', name='Fit', line=dict(color='red'))
             
             st.plotly_chart(fig)
             
