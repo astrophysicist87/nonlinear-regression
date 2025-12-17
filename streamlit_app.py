@@ -130,7 +130,7 @@ if selection == 0:
                 df_data = pd.DataFrame({'t': xData, 'f(t)': yData, 'Type': 'Data Points'})
                 
                 # Print r^2
-                st.write(r"$r^2 = $", get_r_squared(yData, model_predictions))
+                st.write(r"$r^2 = $", get_r_squared(yData, fit_function(xData, *fitted_params)))
             
                 # Create the scatter plot for data and line plot for the fit
                 fig = px.scatter(df_data, x='t', y='f(t)', title="Data Points and Fitted Curve (File Upload)")
