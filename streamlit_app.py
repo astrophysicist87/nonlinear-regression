@@ -117,7 +117,7 @@ if selection == 0:
 
                 # Perform curve fitting
                 #initial_guesses = [1.0, 0.0, 1.0, 0.0]
-                fitted_params, pcov = curve_fit(fit_function, xData, yData, p0=initial_guesses['Value'].to_numpy(), absolute_sigma=True)
+                fitted_params, pcov = curve_fit(fit_function, xData, yData, p0=initial_guesses['Value'].to_numpy())
                 
                 # Display fit parameters and corresponding uncertainties
                 st.write("Fitted Parameters ($A$, $\\tau$, $\\omega$, $\\phi$):")
@@ -206,7 +206,7 @@ elif selection == 1:
         try:
             # Initial guesses: use statistics from the input data
             #initial_guesses = [1.0, xData.mean(), (yData.max() - yData.min()) / 2, yData.mean()] 
-            fitted_params, pcov = curve_fit(fit_function, xData, yData, p0=initial_guesses['Value'].to_numpy(), absolute_sigma=True)
+            fitted_params, pcov = curve_fit(fit_function, xData, yData, p0=initial_guesses['Value'].to_numpy())
             
             # 5. Get predictions and evaluate
             # Display fit parameters and corresponding uncertainties
