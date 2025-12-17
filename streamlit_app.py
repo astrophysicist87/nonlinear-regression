@@ -103,8 +103,8 @@ if selection == 0:
                 st.write("### Regression Results")
 
                 # Perform curve fitting
-                #initial_guesses = [1.0, 0.0, 1.0, 0.0] 
-                fitted_params, pcov = curve_fit(fit_function, xData, yData, initial_guesses)
+                #initial_guesses = [1.0, 0.0, 1.0, 0.0]
+                fitted_params, pcov = curve_fit(fit_function, xData, yData, initial_guesses['Value'].to_numpy())
                 
                 st.write("Fitted Parameters (a, b, c, d):", fitted_params)
                 
@@ -185,7 +185,7 @@ elif selection == 1:
         try:
             # Initial guesses: use statistics from the input data
             #initial_guesses = [1.0, xData.mean(), (yData.max() - yData.min()) / 2, yData.mean()] 
-            fitted_params, pcov = curve_fit(fit_function, xData, yData, p0=initial_guesses)
+            fitted_params, pcov = curve_fit(fit_function, xData, yData, p0=initial_guesses['Value'].to_numpy())
             
             # 5. Get predictions and evaluate
             st.write("Fitted Parameters (a, b, c, d):", fitted_params)
