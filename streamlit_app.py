@@ -118,7 +118,7 @@ if selection == 0:
                 df_data = pd.DataFrame({'t': xData, 'f': yData, 'Type': 'Data Points'})
                 
                 # Create the scatter plot for data and line plot for the fit
-                fig = px.scatter(df_data, x='$t$', y='$f(t)$', title="Data Points and Fitted Curve (File Upload)")
+                fig = px.scatter(df_data, x='t', y='f', title="Data Points and Fitted Curve (File Upload)")
                 fig.add_scatter(x=df_fit['t'], y=df_fit['f'], mode='lines', name='Fit Curve', line=dict(color='red'))
                 
                 st.plotly_chart(fig)
@@ -200,7 +200,7 @@ elif selection == 1:
             df_data = pd.DataFrame({'t': xData, 'f': yData, 'Type': 'Data Points'})
             
             # Create the scatter plot for data and line plot for the fit
-            fig = px.scatter(df_data, x='$t$', y='$f(t)$', title="Data Points and Fitted Curve (Manual Input)")
+            fig = px.scatter(df_data, x='t', y='f', title="Data Points and Fitted Curve (Manual Input)")
             fig.add_scatter(x=df_fit['t'], y=df_fit['f'], mode='lines', name='Fit Curve', line=dict(color='red'))
             
             st.plotly_chart(fig)
@@ -214,7 +214,7 @@ elif selection == 1:
     elif len(dataframe) > 1:
         st.info(f"You currently have {len(dataframe)} data points. Input at least 4 points for the regression to run reliably (4 parameters: $A$, $\\tau$, $\\omega$, $\\phi$).")
         # Plot just the raw data for visual feedback
-        fig = px.scatter(dataframe, x='$t$', y='$f(t)$', title="Data Points (Regression requires more data)")
+        fig = px.scatter(dataframe, x='t', y='f', title="Data Points (Regression requires more data)")
         st.plotly_chart(fig)
     else:
         st.info("Please input at least two data points.")
