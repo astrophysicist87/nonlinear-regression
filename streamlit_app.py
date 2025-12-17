@@ -19,7 +19,7 @@ st.set_page_config(page_title="Non-Linear Regression App", page_icon="📈")
 st.title("📈 Non-Linear Regression & Data Visualization")
 st.write(
     """
-    This app performs non-linear regression using the function $f(x) = A e^{-t/\\tau}\\cdot \\cos(\\omega \\cdot t + \\phi)$
+    This app performs non-linear regression using the function $f(x) = A e^{-x/\\tau}\\cdot \\cos(\\omega \\cdot x + \\phi)$
     and visualizes the resulting best-fit curve in comparison to the collected data points.
     """
 )
@@ -30,7 +30,7 @@ st.write(
 #    return c * np.tanh(a * (x - b)) + d
 def fit_function(x, A, tau, omega, phi):
     # The model function for curve_fit
-    return A * np.exp(-t / tau) * np.cos(omega * t + phi)
+    return A * np.exp(-x / tau) * np.cos(omega * x + phi)
     
 
 # --- 3. Data Loading and Selection UI ---
