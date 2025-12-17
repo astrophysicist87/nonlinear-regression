@@ -119,7 +119,7 @@ if selection == 0:
                 #initial_guesses = [1.0, 0.0, 1.0, 0.0]
                 fitted_params, pcov = curve_fit(fit_function, xData, yData, initial_guesses['Value'].to_numpy())
                 
-                st.write("Fitted Parameters ($A$, $\\tau$, $\\omega$, $\\phi$):", fitted_params, np.sqrt(np.diag(pcov)))
+                st.write("Fitted Parameters ($A$, $\\tau$, $\\omega$, $\\phi$):", np.c_[ fitted_params, np.sqrt(np.diag(pcov)) ])
                 
                 # Get predictions for a smooth plot
                 x_fit = np.linspace(xData.min(), xData.max(), 500)
@@ -205,7 +205,7 @@ elif selection == 1:
             fitted_params, pcov = curve_fit(fit_function, xData, yData, p0=initial_guesses['Value'].to_numpy())
             
             # 5. Get predictions and evaluate
-            st.write("Fitted Parameters ($A$, $\\tau$, $\\omega$, $\\phi$):", fitted_params, np.sqrt(np.diag(pcov)))
+            st.write("Fitted Parameters ($A$, $\\tau$, $\\omega$, $\\phi$):", np.c_[ fitted_params, np.sqrt(np.diag(pcov)) ])
             
             # Create smooth X values for a smooth curve plot
             x_fit = np.linspace(xData.min(), xData.max(), 500)
