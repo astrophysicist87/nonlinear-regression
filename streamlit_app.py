@@ -24,10 +24,22 @@ st.write(
     """
 )
 
-# --- 2. Define the Fit Function ---
+# --- 2. Define the relevant functions ---
+# ---
 def fit_function(t, A, tau, omega, phi):
     # The model function for curve_fit
     return A * np.exp(-t / tau) * np.cos(omega * t + phi)
+
+# ---
+def get_r_squared(f_data, f_pred):
+    #Calculate the sum of squares of residual
+    ss_res=np.sum((f_data-f_pred)**2) 
+
+    #Calculate the total sum of squares
+    ss_tot=np.sum((f_data-np.mean(f_data))**2)
+
+    #Return R-Squared
+    return 1.-(ss_res/ss_tot)
     
 
 # --- 3. Data Loading and Selection UI ---
@@ -61,7 +73,7 @@ def load_data(uploaded_file):
 st.write("Initial guesses for parameters ($A$, $\\tau$, $\\omega$, $\\phi$):",)
 initial_guesses = st.data_editor(
     pd.DataFrame({
-    "Parameter": ['A', "$\\tau$", 'omega', 'phi'],
+    "Parameter": ['A', 'tau', 'omega', 'phi'],
     "Value": [1.0, 1.0, 1.0, 1.0]
 }),
     # Lock the number of rows so users can't add/delete parameters
@@ -117,6 +129,9 @@ if selection == 0:
                 df_fit = pd.DataFrame({'t': x_fit, 'f(t)': model_predictions, 'Type': 'Fit Curve'})
                 df_data = pd.DataFrame({'t': xData, 'f(t)': yData, 'Type': 'Data Points'})
                 
+                # Print r^2
+                st.write(r'''r^2 = ''', get_r_squared(yData, model_predictions))
+            
                 # Create the scatter plot for data and line plot for the fit
                 fig = px.scatter(df_data, x='t', y='f(t)', title="Data Points and Fitted Curve (File Upload)")
                 fig.add_scatter(x=df_fit['t'], y=df_fit['f(t)'], mode='lines', name='Fit Curve', line=dict(color='red'))
@@ -198,6 +213,9 @@ elif selection == 1:
             # Prepare data for plotting
             df_fit = pd.DataFrame({'t': x_fit, 'f(t)': model_predictions, 'Type': 'Fit Curve'})
             df_data = pd.DataFrame({'t': xData, 'f(t)': yData, 'Type': 'Data Points'})
+            
+            # Print r^2
+            st.write(r'''r^2 = ''', get_r_squared(yData, model_predictions))
             
             # Create the scatter plot for data and line plot for the fit
             fig = px.scatter(df_data, x='t', y='f(t)', title="Data Points and Fitted Curve (Manual Input)")
