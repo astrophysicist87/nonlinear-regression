@@ -176,7 +176,7 @@ elif selection == 1:
                 step=1e-16,
                 format="%.8f",
             ),
-            "f": st.column_config.NumberColumn(
+            "f(t)": st.column_config.NumberColumn(
                 label="f(t)",
                 step=1e-16,
                 format="%.8f",
