@@ -65,16 +65,17 @@ st.write(
 # reruns (e.g. if the user interacts with the widgets).
 @st.cache_data
 def load_data(uploaded_file):
-    """Reads a CSV or Excel file into a pandas DataFrame."""
-    # Pandas can often infer the file type from the extension or content
-    if uploaded_file.lower().endswith('.csv'):
+    try:
+        # Try reading as CSV first
         df = pd.read_csv(uploaded_file)
-    elif uploaded_file.lower().endswith(('.xls', '.xlsx', '.xlsm')):
-        df = pd.read_excel(uploaded_file)
-    else:
-        raise ValueError(f"Unsupported file type: {os.path.basename(filepath)}")
-    return df
-
+        return df
+    except (pd.errors.ParserError, UnicodeDecodeError):
+        # If that fails, try reading as Excel
+        try:
+            df = pd.read_excel(uploaded_file)
+            return df
+        except:
+            return None
 
 
 # Display guesses for initial parameters
