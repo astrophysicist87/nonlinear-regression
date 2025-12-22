@@ -108,7 +108,7 @@ initial_guesses = st.data_editor(
 # --- Option 0: Upload data from file ---
 #========================================
 if selection == 0:
-    uploaded_file = st.file_uploader("Choose a CSV file with 't' and 'f(t)' columns")
+    uploaded_file = st.file_uploader("Choose a CSV/Excel file with 't' and 'f(t)' columns")
     
     if uploaded_file is not None:
         try:
