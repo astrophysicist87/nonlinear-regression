@@ -83,25 +83,6 @@ def load_data(uploaded_file):
 # reruns (e.g. if the user interacts with the widgets).
 @st.cache_data
 def load_google_sheet_to_pandas(url):
-    """
-    Loads data from a public Google Sheet into a pandas DataFrame.
-
-    Args:
-        url (str): The Google Sheet URL
-
-    Returns:
-        pd.DataFrame: The loaded data as a pandas DataFrame.
-    """
-    # Construct the export URL for CSV format using the gviz/tq endpoint
-    #url = f'https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name}'
-    
-    #try:
-    #    df = pd.read_csv(url)
-    #    return df
-    #except Exception as e:
-    #    print(f"An error occurred: {e}")
-    #    print("Please ensure the Google Sheet is shared as 'Anyone with the link' can view.")
-    #    return None
     if "docs.google.com/spreadsheets" in url:
         # 2. Split the URL to remove the /edit... part
         base_url = url.split('/edit')[0]
@@ -114,7 +95,8 @@ def load_google_sheet_to_pandas(url):
         df = pd.read_csv(csv_url)
         return df
     else:
-        raise ValueError("This does not look like a valid Google Sheets URL.")
+        raise ValueError(f"URL {url} does not look like a valid Google Sheets URL.")
+        print("Please ensure the Google Sheet is shared as 'Anyone with the link' can view.")
         return None
 
 
