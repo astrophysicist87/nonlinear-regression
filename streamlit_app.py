@@ -286,7 +286,8 @@ elif selection == 2:
     
     url = st.text_input("Paste your URL here", placeholder="https://example.com")
     
-    if url is not None:
+    #if url is not None and url is not "":
+    if url:
         try:
             st.write(f"Loading data from URL: {url}")
             st.write(url)
