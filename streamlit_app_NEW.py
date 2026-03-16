@@ -288,7 +288,9 @@ elif selection == 2:
     
     if url is not None:
         try:
-            st.write(f"Loading data from URL: {url}",)
+            st.write(f"Loading data from URL: {url}")
+            st.write(url)
+            st.write("Done printing")
             dataframe = load_google_sheet_to_pandas(url)
             
             if dataframe is not None:
@@ -335,5 +337,7 @@ elif selection == 2:
 
         except Exception as e:
             st.error(f"Error processing file: {e}")
+
+
 
 
