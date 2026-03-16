@@ -88,8 +88,7 @@ def load_google_sheet_to_pandas(url):
     Loads data from a public Google Sheet into a pandas DataFrame.
 
     Args:
-        sheet_id (str): The long key from the Google Sheet URL (between /d/ and /edit).
-        sheet_name (str): The name of the specific sheet/tab to load (default 'Sheet1').
+        url (str): The Google Sheet URL
 
     Returns:
         pd.DataFrame: The loaded data as a pandas DataFrame.
@@ -97,13 +96,26 @@ def load_google_sheet_to_pandas(url):
     # Construct the export URL for CSV format using the gviz/tq endpoint
     #url = f'https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name}'
     
-    try:
-        df = pd.read_csv(url)
+    #try:
+    #    df = pd.read_csv(url)
+    #    return df
+    #except Exception as e:
+    #    print(f"An error occurred: {e}")
+    #    print("Please ensure the Google Sheet is shared as 'Anyone with the link' can view.")
+    #    return None
+    if "docs.google.com/spreadsheets" in url:
+        # 2. Split the URL to remove the /edit... part
+        base_url = url.split('/edit')[0]
+        
+        # 3. Append the CSV export endpoint
+        # If your data is on a specific tab, you can add &gid=TAB_ID at the end
+        csv_url = f"{base_url}/export?format=csv"
+        
+        # 4. Read directly into pandas
+        df = pd.read_csv(csv_url)
         return df
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        print("Please ensure the Google Sheet is shared as 'Anyone with the link' can view.")
-        return None
+    else:
+        raise ValueError("This does not look like a valid Google Sheets URL.")
 
 
 # Display guesses for initial parameters
@@ -286,7 +298,7 @@ elif selection == 1:
 
 
 #========================================
-# --- Option 1: Enter data manually ---
+# --- Option 2: Enter data manually ---
 #========================================
 elif selection == 2:
     
