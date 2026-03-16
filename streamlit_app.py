@@ -350,6 +350,6 @@ elif selection == 2:
                 else:
                     st.error("The uploaded file must contain columns named 't' and 'f(t)'.")
 
-            except Exception as e:
-                st.error(f"Error processing file: {e}")
+        except Exception as e:
+            st.error(f"Error processing file: {e}")
 
