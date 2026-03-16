@@ -95,8 +95,8 @@ def load_google_sheet_to_pandas(url):
         df = pd.read_csv(csv_url)
         return df
     else:
-        raise ValueError(f"URL {url} does not look like a valid Google Sheets URL.")
-        print("Please ensure the Google Sheet is shared as 'Anyone with the link' can view.")
+        raise ValueError(f"URL {url} does not look like a valid Google Sheets URL.\n"
+                          "Please ensure the Google Sheet is shared as 'Anyone with the link' can view.")
         return None
 
 
