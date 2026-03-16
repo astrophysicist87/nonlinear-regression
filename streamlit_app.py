@@ -294,7 +294,7 @@ elif selection == 2:
     
     if url is not None:
         try:
-            dataframe = load_google_sheet_to_pandas(sheet_id, sheet_name='Sheet1')
+            dataframe = load_google_sheet_to_pandas(url)
             st.write("### Uploaded Data Preview")
             st.write(dataframe)
 
