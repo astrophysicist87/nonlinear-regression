@@ -49,7 +49,6 @@ st.write("Please choose how you want to enter your data:")
 option_map = {
     0: "Upload data from file",
     1: "Enter data manually",
-    2: "Paste link to Google Sheets document",
 }
 selection = st.pills(
     "Input Method",
@@ -65,8 +64,7 @@ st.write(
 # Load the data from a CSV. We're caching this so it doesn't reload every time the app
 # reruns (e.g. if the user interacts with the widgets).
 @st.cache_data
-#def load_data(uploaded_file, sheet_name='Sheet1'):
-def load_data(uploaded_file):
+def load_data(uploaded_file,):
     try:
         # Try reading as CSV first
         df = pd.read_csv(uploaded_file)
@@ -74,37 +72,10 @@ def load_data(uploaded_file):
     except (pd.errors.ParserError, UnicodeDecodeError):
         # If that fails, try reading as Excel
         try:
-            df = pd.read_excel(uploaded_file, sheet_name)
+            df = pd.read_excel(uploaded_file)
             return df
         except:
             return None
-
-# Load the data from a Google Sheets URL. We're caching this so it doesn't reload every time the app
-# reruns (e.g. if the user interacts with the widgets).
-@st.cache_data
-#def load_google_sheet_to_pandas(sheet_id, sheet_name='Sheet1'):
-def load_google_sheet_to_pandas(url):
-    """
-    Loads data from a public Google Sheet into a pandas DataFrame.
-
-    Args:
-        sheet_id (str): The long key from the Google Sheet URL (between /d/ and /edit).
-        sheet_name (str): The name of the specific sheet/tab to load (default 'Sheet1').
-
-    Returns:
-        pd.DataFrame: The loaded data as a pandas DataFrame.
-    """
-    # Construct the export URL for CSV format using the gviz/tq endpoint
-    #url = f'https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name}'
-    
-    try:
-        df = pd.read_csv(url)
-        return df
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        print("Please ensure the Google Sheet is shared as 'Anyone with the link' can view.")
-        return None
-
 
 # Display guesses for initial parameters
 st.write("Initial guesses for parameters ($A$, $\\tau$, $\\omega$, $\\phi$):",)
@@ -283,58 +254,3 @@ elif selection == 1:
         st.plotly_chart(fig)
     else:
         st.info("Please input at least two data points.")
-
-
-#========================================
-# --- Option 1: Enter data manually ---
-#========================================
-elif selection == 2:
-    
-    url = st.text_input("Paste your URL here", placeholder="https://example.com")
-    
-    if url is not None:
-        try:
-            dataframe = load_google_sheet_to_pandas(sheet_id, sheet_name='Sheet1')
-            st.write("### Uploaded Data Preview")
-            st.write(dataframe)
-
-            # Ensure 't' and 'f(t)' columns exist
-            if 't' in dataframe.columns and 'f(t)' in dataframe.columns:
-                
-                xData = dataframe['t'].to_numpy()
-                yData = dataframe['f(t)'].to_numpy()
-                
-                st.write("### Regression Results")
-
-                # Perform curve fitting
-                #initial_guesses = [1.0, 0.0, 1.0, 0.0]
-                fitted_params, pcov = curve_fit(fit_function, xData, yData, p0=initial_guesses['Value'].to_numpy())
-                
-                # Display fit parameters and corresponding uncertainties
-                st.write("Fitted Parameters ($A$, $\\tau$, $\\omega$, $\\phi$):")
-                st.dataframe(pd.DataFrame({"Parameter": fitted_params,
-                                           "Uncertainty": np.sqrt(np.diag(pcov))}),
-                             hide_index = True)
-
-                # Get predictions for a smooth plot
-                x_fit = np.linspace(xData.min(), xData.max(), 500)
-                model_predictions = fit_function(x_fit, *fitted_params)
-
-                # Prepare data for plotting
-                df_fit = pd.DataFrame({'t': x_fit, 'f(t)': model_predictions, 'Type': 'Fit Curve'})
-                df_data = pd.DataFrame({'t': xData, 'f(t)': yData, 'Type': 'Data Points'})
-                
-                # Print r^2
-                r2 = get_r_squared(yData, fit_function(xData, *fitted_params))
-                st.write(rf'''Goodness-of-fit $r^2$ = {r2}''')
-            
-                # Create the scatter plot for data and line plot for the fit
-                fig = px.scatter(df_data, x='t', y='f(t)', title="Data Points and Fitted Curve (File Upload)")
-                fig.add_scatter(x=df_fit['t'], y=df_fit['f(t)'], mode='lines', name='Fit', line=dict(color='red'))
-                
-                st.plotly_chart(fig)
-            else:
-                st.error("The uploaded file must contain columns named 't' and 'f(t)'.")
-
-        except Exception as e:
-            st.error(f"Error processing file: {e}")
