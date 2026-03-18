@@ -19,16 +19,16 @@ st.set_page_config(page_title="Non-Linear Regression App", page_icon="📈")
 st.title("📈 Non-Linear Regression & Data Visualization")
 st.write(
     """
-    This app performs non-linear regression using the function $f(t) = A e^{-t/\\tau}\\cdot \\sin(\\omega \\cdot t + \\phi)$
+    This app performs non-linear regression using the function $f(t) = f_0 + A e^{-t/\\tau}\\cdot \\sin(\\omega \\cdot t + \\phi)$
     and visualizes the resulting best-fit curve in comparison to the collected data points.
     """
 )
 
 # --- 2. Define the relevant functions ---
 # ---
-def fit_function(t, A, tau, omega, phi):
+def fit_function(t, f0, A, tau, omega, phi):
     # The model function for curve_fit
-    return A * np.exp(-t / tau) * np.sin(omega * t + phi)
+    return f0 + A * np.exp(-t / tau) * np.sin(omega * t + phi)
 
 # ---
 def get_r_squared(f_data, f_pred):
@@ -101,11 +101,11 @@ def load_google_sheet_to_pandas(url):
 
 
 # Display guesses for initial parameters
-st.write("Initial guesses for parameters ($A$, $\\tau$, $\\omega$, $\\phi$):",)
+st.write("Initial guesses for parameters ($f_0$, $A$, $\\tau$, $\\omega$, $\\phi$):",)
 initial_guesses = st.data_editor(
     pd.DataFrame({
-    "Parameter": ['A', 'tau', 'omega', 'phi'],
-    "Value": [1.0, 1.0, 1.0, 1.0]
+    "Parameter": ['f0', 'A', 'tau', 'omega', 'phi'],
+    "Value": [0.0, 1.0, 1.0, 1.0, 1.0]
 }),
     # Lock the number of rows so users can't add/delete parameters
     num_rows="fixed",
