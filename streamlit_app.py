@@ -151,7 +151,7 @@ if selection == 0:
                 fitted_params, pcov = curve_fit(fit_function, xData, yData, p0=initial_guesses['Value'].to_numpy())
                 
                 # Display fit parameters and corresponding uncertainties
-                st.write("Fitted Parameters ($A$, $\\tau$, $\\omega$, $\\phi$):")
+                st.write("Fitted Parameters ($f_0$, $A$, $\\tau$, $\\omega$, $\\phi$):")
                 st.dataframe(pd.DataFrame({"Parameter": fitted_params,
                                            "Uncertainty": np.sqrt(np.diag(pcov))}),
                              hide_index = True)
